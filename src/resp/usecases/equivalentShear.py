@@ -11,7 +11,7 @@ from resp.parts.font import Font
 from resp.parts.viewbox import ViewBox
 
 def getmodel() -> Model:
-    model: Model = Model(Size(500, 540), ViewBox(Point(-100, -400), Size(500, 540)))
+    model: Model = Model(Size(400, 540), ViewBox(Point(-50, -360), Size(400, 540)))
 
     # NodePoints
     masterPoints: list[Point] = [Point(i * 100, -i * 100) for i in range(0, 4)]
@@ -58,17 +58,17 @@ def getmodel() -> Model:
     # Text
     textPoints: list[Point] = [p.addedPoint(-20, -140) for p in masterPoints[:-1]]
     for p in textPoints:
-        model.text(p, "回転方向", Font('black', 14))
-        model.text(p.addedPoint(0, 20), "constraint", Font('black', 14))
+        model.text(p, "回転方向", Font('black', 16))
+        model.text(p.addedPoint(0, 20), "constraint", Font('black', 16))
 
     frameTextPoints: list[Point] = [p.addedPoint(10, 50) for p in masterPoints[1:]]
     for p in frameTextPoints:
-        model.text(p, "剛体", Font('black', 14))
+        model.text(p, "剛体", Font('black', 16))
     
     for i, p in enumerate(masterPoints):
-        model.text(p.addedPoint(3, -16), f'Main{i}', Font('black', 11))
+        model.text(p.addedPoint(3, -16), f'Main{i}', Font('black', 14))
     for i, p in enumerate(slavePoints):
-        model.text(p.addedPoint(5, -16), f'Sub{i}', Font('black', 11))
+        model.text(p.addedPoint(5, -16), f'Sub{i}', Font('black', 14))
         
     # 矢印
     arrowFillStroke: FillStroke = FillStroke('black', 'black', 1)
@@ -84,7 +84,7 @@ def getmodel() -> Model:
     annotationPoint: Point = Point(10, 80)
     model.circle(annotationPoint.addedPoint(-12, -5), masterNodeRadius, masterNodeFillStroke)
     model.circle(annotationPoint.addedPoint(-12, -5).addedPoint(0, 28), masterNodeRadius, slaveNodeFillStroke)
-    model.text(annotationPoint, "Main：質量が入っている節点 ※最下層を除く", Font('black', 14))
-    model.text(annotationPoint.addedPoint(0, 28), "Sub：質量が入っていない節点", Font('black', 14))
+    model.text(annotationPoint, "Main：質量が入っている節点 ※最下層を除く", Font('black', 16))
+    model.text(annotationPoint.addedPoint(0, 28), "Sub：質量が入っていない節点", Font('black', 16))
 
     return model

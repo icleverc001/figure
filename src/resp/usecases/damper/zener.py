@@ -27,9 +27,9 @@ def getmodel() -> Model:
     model.spring(points[0], points[1], Size(50, 25), springStroke)
     model.spring(point1H, point2H, Size(50, 25), springStroke)
 
-    model.dashpot(point1L.addedPoint(25, 0), 50, springStroke)
-    model.line(point1L, point1L.addedPoint(25, 0), springStroke)
-    model.line(point2L.addedPoint(-25, 0), point2L, springStroke)
+    model.dashpot(point1L, point2L, Size(18, 36), springStroke)
+    # model.line(point1L, point1L.addedPoint(25, 0), springStroke)
+    # model.line(point2L.addedPoint(-25, 0), point2L, springStroke)
     
     model.line(point1H, point1L, springStroke)
     model.line(point2H, point2L, springStroke)

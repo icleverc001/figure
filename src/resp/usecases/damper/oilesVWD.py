@@ -20,9 +20,9 @@ def getmodel() -> Model:
     springStroke: Stroke = Stroke('black', 1)
     model.spring(points[0], points[1], Size(50, 25), springStroke)
 
-    model.dashpot(points[1].addedPoint(25, 0), 50, springStroke)
-    model.line(points[1], points[1].addedPoint(25, 0), springStroke)
-    model.line(points[2].addedPoint(-25, 0), points[2], springStroke)
+    model.dashpot(points[1], points[2], Size(18, 36), springStroke)
+    # model.line(points[1], points[1].addedPoint(25, 0), springStroke)
+    # model.line(points[2].addedPoint(-25, 0), points[2], springStroke)
     
     # Node
     masterNodeRadius: int = 2

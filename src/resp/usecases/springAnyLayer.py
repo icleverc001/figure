@@ -39,7 +39,7 @@ def getmodel() -> Model:
     springStroke: Stroke = Stroke('black', 1)
     damperStroke: Stroke = Stroke('blue', 1)
     for m, s in zip(masterPoints, slavePoints):
-        model.spring(m, s, Size(40, 20), springStroke)
+        model.spring(m, s, Size(50, 25), springStroke)
     startPoints: list[Point] = [cornerNodePoints[0], cornerNodePoints[1].addedPoint(nodeDisX * 0.5, 0)]
     endPoints: list[Point] = [masterPoints[1], masterPoints[-1].addedPoint(-nodeDisX * 0.5, 0)]
     for m, tmp in zip(masterPoints, cornerNodePoints):
@@ -47,16 +47,7 @@ def getmodel() -> Model:
     model.line(cornerNodePoints[1], startPoints[1], damperStroke)
     model.line(endPoints[1], masterPoints[-1], damperStroke)
     for st, ed in zip(startPoints, endPoints):
-        tmpRatio = 0.4
-        sprLength = 36
-        p1 = st.addedPoint(nodeDisX * 0.1, 0)
-        p2 = st.addedPoint(nodeDisX * 0.4, 0)
-        p3 = st.addedPoint(nodeDisX * 0.9, 0)
-        # p2 = p1.addedPoint(sprLength, 0)
-        model.line(st, p1, damperStroke)
-        model.dashpot(p1, p2, Size(14, 28), damperStroke)
-        model.spring(p2, p3, Size(sprLength, 20), damperStroke)
-        model.line(p3, ed, damperStroke)
+        model.spring(st, ed, Size(50, 25), damperStroke)
     # model.spring(masterPoints[1], slavePoints[1], Size(50, 25), springStroke)
     # model.spring(masterPoints[2], slavePoints[2], Size(50, 25), springStroke)
     # model.spring(Point(20, -120), 50, Stroke('blue', 1))
@@ -119,7 +110,7 @@ def getmodel() -> Model:
     model.arrow(arrowStartPoint, 160, arrowHeadSize, arrowFillStroke, arrowStartPoint, -25)
     model.arrow(arrowStartPoint, 100, arrowHeadSize, arrowFillStroke, arrowStartPoint, 65)
 
-    model.text(arrowStartPoint.addedPoint(-55, -10), "制振部材", Font('black', 16))
+    model.text(arrowStartPoint.addedPoint(-55, -10), "任意ばね", Font('black', 16))
 
     annotationPoint: Point = Point(-30, 40)
     annotationFont: Font = Font('black', 20)

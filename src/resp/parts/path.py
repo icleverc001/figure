@@ -48,6 +48,12 @@ class Path:
     
     def a(self, rx: float, ry: float, xAxisRotation: bool, largeArcFlag: bool, sweepFlag: bool, x:float, y: float) -> None:
         self.elems.append(A(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y, True))
+    
+    def Q(self, x1: float, y1: float, x: float, y: float) -> None:
+        self.elems.append(Q(x1, y1, x, y))
+
+    def q(self, x1: float, y1: float, x: float, y: float) -> None:
+        self.elems.append(Q(x1, y1, x, y, True))
 
     def Z(self) -> None:
         self.elems.append(Z())
@@ -126,6 +132,21 @@ class A(PathElem):
         txt: str = f'{cmd} {self.rx} {self.ry} {int(self.xAxisRotation)} {int(self.largeArcFlag)} {int(self.sweepFlag)} {self.x} {self.y}'
         return txt
 
+
+class Q(PathElem):
+    # x, y: 終点、x1, y1: 計算点
+    def __init__(self, x1: float, y1: float, x: float, y: float, isRelative: bool = False) -> None:
+        super().__init__()
+        self.__x1: float = x1
+        self.__y1: float = y1
+        self.__x: float = x
+        self.__y: float = y
+        self.__isRelative: bool = isRelative
+
+    def get_text(self) -> str:
+        cmd: str = 'q' if self.__isRelative else 'Q'
+        txt: str = f'{cmd} {self.__x1} {self.__y1} {self.__x} {self.__y}'
+        return txt
 
 class Z(PathElem):
     def __init__(self, isRelative: bool = False) -> None:

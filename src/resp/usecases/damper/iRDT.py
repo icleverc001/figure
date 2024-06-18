@@ -26,9 +26,9 @@ def getmodel() -> Model:
     model.spring(points[3], points[4], Size(50, 25), springStroke)
     # model.spring(point1L, point2L, Size(50, 25), springStroke)
 
-    model.dashpot(point1H.addedPoint(25, 0), 50, springStroke)
-    model.line(point1H, point1H.addedPoint(25, 0), springStroke)
-    model.line(point2H.addedPoint(-25, 0), point2H, springStroke)
+    model.dashpot(point1H, point2H, Size(18, 36), springStroke)
+    # model.line(point1H, point1H.addedPoint(25, 0), springStroke)
+    # model.line(point2H.addedPoint(-25, 0), point2H, springStroke)
     
     rotaryDampingFillStroke: FillStroke = FillStroke('black', 'black', 1)
     model.rotaryDamping(point1L, point2L, 15, rotaryDampingFillStroke)

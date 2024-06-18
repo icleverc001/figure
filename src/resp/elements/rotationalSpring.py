@@ -3,6 +3,8 @@ import os
 sys.path.append(os.path.dirname(__file__))
 import math
 
+# import numpy as np
+
 from elements.line import Line
 from parts.path import Path
 from parts.fillstroke import FillStroke
@@ -11,11 +13,13 @@ from baseElement import BaseElement
 
 
 class RotationalSpring(BaseElement):
-    def __init__(self, origin: Point, radius: float, stroke: FillStroke) -> None:
+    def __init__(self, origin: Point, radius: float, stroke: FillStroke, startRadian: float = 0, aspectRatioY: float = 1) -> None:
         super().__init__()
         self.origin: Point = origin
         self.radius: float = radius
         self.stroke: FillStroke = stroke
+        self.startRadian: float = startRadian
+        self.aspectRatioY: float = aspectRatioY
         self.path: Path = self.getPath()
 
     @property
@@ -45,15 +49,17 @@ class RotationalSpring(BaseElement):
         rng = range(0, pointNum)
         
         lastLength: float = 0.2
-                
-        dxs = [radius * (1 - (1 - lastLength) * i / pointNum) * math.sin(math.pi * (0.5 + i / piDiv)) for i in rng]
-        dys = [radius * (1 - (1 - lastLength) * i / pointNum) * math.cos(math.pi * (0.5 + i / piDiv)) for i in rng]
+        
+        dxs = [radius * (1 - (1 - lastLength) * i / pointNum) * math.cos(self.startRadian + math.pi * (i / piDiv)) for i in rng]
+        dys = [radius * self.aspectRatioY * (1 - (1 - lastLength) * i / pointNum) * math.sin(self.startRadian + math.pi * (i / piDiv)) for i in rng]
+        # dxs = [radius * (1 - (1 - lastLength) * i / pointNum) * math.sin(math.pi * (0.5 + i / piDiv)) for i in rng]
+        # dys = [radius * (1 - (1 - lastLength) * i / pointNum) * math.cos(math.pi * (0.5 + i / piDiv)) for i in rng]
 
         path: Path = Path(self.stroke)
-        self.startPoint: Point = Point(dxs[0] + ori.X, dys[0] + ori.Y)
+        self.startPoint: Point = Point(ori.X + dxs[0], ori.Y - dys[0])
         path.M(self.startPoint.X, self.startPoint.Y)
         for x, y in zip(dxs, dys):
-            self.endPoint: Point = Point(x + ori.X, y + ori.Y)
+            self.endPoint: Point = Point(ori.X + x, ori.Y - y)
             path.L(self.endPoint.X, self.endPoint.Y)
 
         return path

@@ -7,6 +7,7 @@ from elements.text import Text
 from elements.line import Line
 from elements.arrow import Arrow
 from elements.arrowRotational import ArrowRotational
+from elements.arrowCurve import ArrowCurve
 from elements.circle import Circle
 from elements.spring import Spring
 from elements.dashpot import Dashpot
@@ -15,6 +16,7 @@ from elements.rotaryDamping import RotaryDamping
 from elements.rotationalSpring import RotationalSpring
 from elements.groundHorizontal import GroundHorizontal
 from elements.groundVertical import GroundVertical
+from elements.tower import Tower
 from parts.point import Point
 from parts.size import Size
 from parts.stroke import Stroke
@@ -50,6 +52,10 @@ class Model:
     def arrowRotational(self, origin: Point, radius: float, headSize: Size, stroke: FillStroke, angle: float) -> None:
         a: ArrowRotational = ArrowRotational(origin, radius, headSize, stroke, angle)
         self.elements.append(a)
+
+    def arrowCurve(self, startPoint: Point, endPoint: Point, tmpPoint: Point, headSize: Size, stroke: FillStroke) -> None:
+        a: ArrowCurve = ArrowCurve(startPoint, endPoint, tmpPoint, headSize, stroke)
+        self.elements.append(a)
     
     def circle(self, origin: Point, radius: float, fillstroke: FillStroke):
         c: Circle = Circle(origin, radius, fillstroke)
@@ -67,12 +73,12 @@ class Model:
         g: GroundVertical = GroundVertical(pointbottom, length, thickness, stroke)
         self.elements.append(g)
 
-    def dashpot(self, pointleft: Point, length: float, stroke: Stroke):
-        d: Dashpot = Dashpot(pointleft, length, stroke)
+    def dashpot(self, pointLeft: Point, pointRight: Point, size: Size, stroke: Stroke):
+        d: Dashpot = Dashpot(pointLeft, pointRight, size, stroke)
         self.elements.append(d)
         
-    def rotationalSpring(self, origin: Point, radius: float, stroke: FillStroke) -> RotationalSpring:
-        r: RotationalSpring = RotationalSpring(origin, radius, stroke)
+    def rotationalSpring(self, origin: Point, radius: float, stroke: FillStroke, startRadian: float = 0, aspectRatioY: float = 1) -> RotationalSpring:
+        r: RotationalSpring = RotationalSpring(origin, radius, stroke, startRadian=startRadian, aspectRatioY=aspectRatioY)
         self.elements.append(r)
         return r
     
@@ -83,4 +89,8 @@ class Model:
     def frictionSpring(self, pointleft: Point, pointright: Point, radius: float, fillstroke: FillStroke):
         f: FrictionSpring = FrictionSpring(pointleft, pointright, radius, fillstroke)
         self.elements.append(f)
+
+    def tower(self, pointTop: Point, pointBottom: Point, offsetX: int, offsetY: int, stroke: Stroke):
+        t: Tower = Tower(pointTop=pointTop, pointBottom=pointBottom, offsetX=offsetX, offsetY=offsetY, stroke=stroke)
+        self.elements.append(t)
 
